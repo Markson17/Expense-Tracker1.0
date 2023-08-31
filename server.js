@@ -13,12 +13,18 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+const cors = require('cors');
+app.use(cors());
+const bcrypt = require('bcryptjs');
+const usersRouter = require('./routes/users');
+
 
 if (process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
 
 app.use('/api/v1/transactions', transactions);
+app.use('/users', usersRouter);
 
 if (process.env.NODE_ENV === 'production'){
     app.use(express.static('client/build'));
